@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="hero">
+    <h2>Welcome to my fav places!</h2>
+    
+    <button id="random-place-btn" class="btn btn-primary">Where to go today?</button>
+    
+    <div id="random-place-result" style="display: none; margin-top: 20px; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
+        <h3>Let's go bruh:</h3>
+        <div id="place-details"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('random-place-btn').addEventListener('click', function() {
+    fetch('{% url "places:random_place" %}', {
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const resultDiv = document.getElementById('random-place-result');
+        const detailsDiv = document.getElementById('place-details');
+        
+        detailsDiv.innerHTML = `
+            <h4>${data.name}</h4>
+            <p><strong>Type:</strong> ${data.type}</p>
+            <p><strong>Location:</strong> ${data.location}</p>
+            <p><strong>Rating:</strong> ${'★'.repeat(data.rating)}${'☆'.repeat(5-data.rating)}</p>
+            <p><strong>Description:</strong> ${data.description}</p>
+        `;
+        
+        resultDiv.style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+</script>
+{% endblock %}

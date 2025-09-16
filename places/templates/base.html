@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My favourite places{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>My favourite places</h1>
+            <ul>
+                <li><a href="{% url 'places:home' %}">Main</a></li>
+                <li><a href="{% url 'places:place_list' %}">Place_list</a></li>
+                <li><a href="{% url 'places:add_place' %}">Add place</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>

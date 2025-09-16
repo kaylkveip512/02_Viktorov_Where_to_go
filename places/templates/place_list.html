@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>List of my fav places!</h2>
+
+<div class="places-grid">
+    {% for place in places %}
+    <div class="place-card">
+        <img src="{% static 'chotko.jpg' %}" alt="{{ place.name }}" class="place-image">
+        <h3><a href="{% url 'places:place_detail' place.id %}">{{ place.name }}</a></h3>
+        <p class="place-type">{{ place.place_type }}</p>
+        <p class="location">{% if place.location %}{{ place.location }}{% else %}Secret place👀{% endif %}</p>
+        <p class="rating">{% for i in "12345" %}{% if forloop.counter <= place.rating %}★{% else %}☆{% endif %}{% endfor %}</p>
+        <p class="description">{{ place.description|truncatewords:10 }}</p>
+        <p class="created-at">Added: {{ place.created_at }}</p>
+    </div>
+    {% empty %}
+    <p>Nothing here... <a href="{% url 'places:add_place' %}">Add first place!</a></p>
+    {% endfor %}
+</div>
+{% endblock %}
